@@ -1,0 +1,125 @@
+# Five-round elite training profile.
+criterion:
+  type: CrossEntropyLoss
+data:
+  dirichlet_alpha: 0.3
+  max_pair_tokens: 512
+  prepared_dir: outputs/shp/reproduction-data/selector
+  require_complete_pair_inputs: true
+  root: outputs/shp/reproduction-data/selector
+  splitter: meta
+  splitter_args:
+  - on_insufficient: error
+    preserve_category_ids: true
+    unknown_category: server_only
+  type: shp-table-vii-causal-choice@llm
+dataloader:
+  batch_size: 8
+  shuffle: true
+device: 0
+eval:
+  count_flops: false
+  freq: 5
+  metrics:
+  - loss
+  - acc
+  split:
+  - val
+expname: shp/qwen/map0520/formal
+federate:
+  client_num: 200
+  ignore_weight: true
+  make_global_eval: true
+  method: map_elites
+  mode: standalone
+  online_aggr: false
+  sample_client_num: 10
+  save_freq: 5
+  save_to: outputs/shp/selector/selector.ckpt
+  share_local_model: true
+  total_round_num: 200
+llm:
+  accelerator:
+    prepare_model_once: true
+    use: true
+  adapter:
+    args:
+    - adapter_method: lora
+      adapter_package: peft
+      lora_alpha: 16
+      lora_dropout: 0.05
+      r: 8
+      target_modules:
+      - q_proj
+      - v_proj
+    use: true
+  grad_accum_step: 2
+  tok_len: 8192
+map_elites:
+  cold_start_lambda:
+    bias_length: 0.05
+    bias_first_person: 0.05
+  descriptor_mode: data_preference
+  descriptor_shrinkage: 50.0
+  factor_priors:
+    bias_first_person: 0.0
+    bias_length: 0.0
+  factor_thresholds:
+    bias_first_person: 0.0
+    bias_length: 0.0
+  factors:
+  - bias_length
+  - bias_first_person
+  grid_dim:
+  - 2
+  - 2
+  lambda_options:
+    bias_length:
+    - 0.05
+    - 0.2
+    bias_first_person:
+    - 0.05
+    - 0.2
+  precompute_static_client_bc: true
+  random_routing_seed: 0
+  require_all_clients_for_final_manifest: true
+  routing_mode: behavior_descriptor
+  elite_archive_interval: 5
+model:
+  type: models/Qwen2-0.5B@huggingface_llm
+outdir: outputs/shp/selector
+seed: 0
+train:
+  batch_or_epoch: batch
+  is_enable_half: true
+  local_update_steps: 30
+  optimizer:
+    betas:
+    - 0.9
+    - 0.95
+    lr: 1.0e-05
+    type: AdamW
+    weight_decay: 0.01
+trainer:
+  adv_dropout: 0.1
+  adv_factors:
+  - bias_length
+  - bias_first_person
+  adv_heads_frozen: true
+  adv_input_mode: concat
+  adv_label_smoothing: 0.1
+  adv_pretrained_heads:
+    bias_length: checkpoints/shp/qwen2/length/adv_pretrained.pt
+    bias_first_person: checkpoints/shp/qwen2/person/adv_pretrained.pt
+  causal_selector_type: grl_adversarial
+  choices:
+  - A
+  - B
+  grl_lambda:
+    bias_length: 0.05
+    bias_first_person: 0.05
+  lambda_adv: 1.0
+  type: llmrewardchoicecausaltrainer
+use_gpu: true
+early_stop:
+  patience: 0

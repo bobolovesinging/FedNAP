@@ -1,0 +1,8 @@
+# Separate Auto-J environment (Python 3.10).
+vllm==0.4.0.post1
+torch==2.1.2
+transformers==4.40.2
+tokenizers==0.19.1
+numpy==1.26.4
+sentencepiece==0.2.0
+tqdm

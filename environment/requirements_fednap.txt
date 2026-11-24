@@ -1,0 +1,32 @@
+# Selector, DPO and policy generation environment (Python 3.10).
+# Install a CUDA-compatible torch 2.3.0 build separately, then this file.
+accelerate==0.33.0
+datasets==2.20.0
+transformers==4.38.2
+tokenizers==0.15.2
+peft==0.11.1
+sentencepiece==0.2.0
+safetensors==0.4.3
+huggingface-hub==0.24.6
+numpy==1.26.4
+scipy==1.11.4
+scikit-learn==1.4.2
+pandas==1.5.3
+pyyaml
+yacs==0.1.8
+fvcore
+iopath
+grpcio==1.62.1
+grpcio-tools==1.62.1
+protobuf==4.25.3
+pympler
+tensorboard
+tensorboardX
+wandb
+matplotlib
+rouge_score==0.1.2
+tqdm
+fschat
+einops
+omegaconf
+dill

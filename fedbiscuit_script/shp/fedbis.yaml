@@ -1,0 +1,78 @@
+# SHP FedBis selector profile.
+criterion:
+  type: CrossEntropyLoss
+data:
+  dirichlet_alpha: 0.3
+  max_pair_tokens: 512
+  prepared_dir: outputs/shp/reproduction-data/selector
+  require_complete_pair_inputs: true
+  root: outputs/shp/reproduction-data/selector
+  splitter: meta
+  splitter_args:
+  - on_insufficient: error
+    preserve_category_ids: true
+    unknown_category: server_only
+  type: shp-table-vii-causal-choice@llm
+dataloader:
+  batch_size: 8
+  shuffle: true
+device: 0
+eval:
+  count_flops: false
+  freq: 5
+  metrics:
+  - loss
+  - acc
+  split:
+  - val
+expname: shp/qwen/fedbis200/formal
+federate:
+  client_num: 200
+  ignore_weight: true
+  make_global_eval: true
+  method: fedavg
+  mode: standalone
+  online_aggr: false
+  sample_client_num: 10
+  save_freq: 5
+  save_to: outputs/shp/qwen2/fedbis/checkpoints/selector.ckpt
+  share_local_model: true
+  total_round_num: 200
+llm:
+  accelerator:
+    prepare_model_once: true
+    use: true
+  adapter:
+    args:
+    - adapter_method: lora
+      adapter_package: peft
+      lora_alpha: 16
+      lora_dropout: 0.05
+      r: 8
+      target_modules:
+      - q_proj
+      - v_proj
+    use: true
+  grad_accum_step: 2
+  tok_len: 8192
+model:
+  type: models/Qwen2-0.5B@huggingface_llm
+outdir: outputs/shp/qwen2/fedbis/federatedscope
+seed: 0
+train:
+  batch_or_epoch: batch
+  is_enable_half: true
+  local_update_steps: 30
+  optimizer:
+    betas:
+    - 0.9
+    - 0.95
+    lr: 1.0e-05
+    type: AdamW
+    weight_decay: 0.01
+trainer:
+  type: llmrewardchoicetrainer
+  choices:
+  - A
+  - B
+use_gpu: true

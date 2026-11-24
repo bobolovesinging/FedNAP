@@ -1,0 +1,101 @@
+# TLDR two-head pretraining profile.
+seed: 0
+use_gpu: true
+device: 0
+early_stop:
+  patience: 5
+  improve_indicator_mode: best
+federate:
+  mode: standalone
+  client_num: 1
+  sample_client_num: 1
+  total_round_num: 10
+  save_to: outputs/tldr/head-pretraining/head.ckpt
+  save_freq: 10
+  share_local_model: true
+  online_aggr: false
+  ignore_weight: true
+data:
+  root: data/
+  type: reddit-tldr-llm-labeled@llm-rlhf
+  splits:
+  - 0.8
+  - 0.1
+  - 0.1
+  splitter: meta
+  max_train: 10000
+  shuffle: true
+  labeled_json_path: outputs/tldr/reproduction-data/training/head_annotations.json
+llm:
+  tok_len: 1024
+  accelerator:
+    use: false
+  chat:
+    max_len: 1024
+  adapter:
+    use: true
+    args:
+    - adapter_package: peft
+      adapter_method: lora
+      r: 8
+      lora_alpha: 16
+      lora_dropout: 0.05
+      target_modules:
+      - q_proj
+      - v_proj
+  grad_accum_step: 4
+dataloader:
+  batch_size: 8
+  shuffle: true
+grad:
+  grad_clip: 1.0
+model:
+  type: models/Qwen2-0.5B@huggingface_llm
+train:
+  batch_or_epoch: epoch
+  local_update_steps: 1
+  optimizer:
+    type: AdamW
+    betas:
+    - 0.9
+    - 0.95
+    lr: 5.0e-05
+    weight_decay: 0.01
+  is_enable_half: false
+criterion:
+  type: CrossEntropyLoss
+trainer:
+  type: fedcqd_trainer
+  grl_lambda: 0.0
+  lambda_adv: 0.0
+  bias_name: phase1_dual_qwen2
+  adv_factors:
+  - bias_length
+  - bias_lead
+  adv_pretrain_rounds: 10
+  top_k_lora_layers: 8
+  trainable_lora_layer_ids:
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+eval:
+  freq: 1
+  metrics:
+  - loss
+  - acc
+  split:
+  - test
+  - val
+  report:
+  - weighted_avg
+  - avg
+  - raw
+  best_res_update_round_wise_key: val_loss
+  count_flops: false
+expname: tldr/fedcqd/phase1_dual_qwen2
+outdir: outputs/tldr/head-pretraining

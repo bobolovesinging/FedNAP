@@ -1,0 +1,82 @@
+criterion:
+  type: CrossEntropyLoss
+data:
+  dirichlet_alpha: 0.3
+  max_pair_tokens: 512
+  pool_prepared_train: true
+  prepared_dir: outputs/shp/reproduction-data/heads
+  require_complete_pair_inputs: true
+  root: outputs/shp/reproduction-data/heads
+  splitter: meta
+  type: shp-table-vii-causal-choice@llm-rlhf
+dataloader:
+  batch_size: 8
+  shuffle: true
+device: 0
+eval:
+  count_flops: false
+  freq: 1
+  metrics:
+  - loss
+  - acc
+  split:
+  - val
+expname: shp/qwen/length/formal
+federate:
+  client_num: 1
+  ignore_weight: true
+  mode: standalone
+  online_aggr: false
+  sample_client_num: 1
+  save_freq: 10
+  save_to: outputs/shp/heads/length/head.ckpt
+  share_local_model: true
+  total_round_num: 10
+  method: fedavg
+llm:
+  accelerator:
+    use: true
+    prepare_model_once: true
+  adapter:
+    args:
+    - adapter_method: lora
+      adapter_package: peft
+      lora_alpha: 16
+      lora_dropout: 0.05
+      r: 8
+      target_modules:
+      - q_proj
+      - v_proj
+    use: true
+  grad_accum_step: 2
+  tok_len: 8192
+model:
+  type: models/Qwen2-0.5B@huggingface_llm
+seed: 0
+train:
+  batch_or_epoch: epoch
+  is_enable_half: true
+  local_update_steps: 1
+  optimizer:
+    betas:
+    - 0.9
+    - 0.95
+    lr: 1.0e-05
+    type: AdamW
+    weight_decay: 0.01
+trainer:
+  adv_dropout: 0.1
+  adv_factors:
+  - bias_length
+  adv_input_mode: concat
+  adv_label_smoothing: 0.1
+  adv_lr: 0.0003
+  adv_pooling: response_mean
+  adv_pretrain_rounds: 10
+  causal_selector_type: grl_adversarial
+  grl_lambda:
+    bias_length: 0.0
+  lambda_adv: 0.0
+  type: fedcqd_trainer
+use_gpu: true
+outdir: outputs/shp/heads/length

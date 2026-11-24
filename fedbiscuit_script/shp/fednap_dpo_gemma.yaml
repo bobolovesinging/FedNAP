@@ -1,0 +1,64 @@
+seed: 0
+use_gpu: true
+device: 0
+federate:
+  mode: standalone
+  client_num: 1
+  total_round_num: 150
+  save_to: outputs/shp/dpo/gemma/policy.ckpt
+  save_freq: 25
+  share_local_model: true
+  online_aggr: false
+data:
+  root: outputs/shp/reproduction-data
+  prepared_dir: outputs/shp/reproduction-data
+  type: shp-rlhf@llm
+  splits:
+  - 0.99
+  - 0.005
+  - 0.005
+  splitter: iid
+llm:
+  rlhf: true
+  tok_len: 1024
+  max_new_token: 300
+  num_completions: 2
+  accelerator:
+    use: true
+  adapter:
+    use: true
+    args:
+    - adapter_package: peft
+      adapter_method: lora
+      r: 8
+      lora_alpha: 16
+      lora_dropout: 0.05
+      target_modules:
+      - q_proj
+      - v_proj
+  reward_coeff: 0.1
+  grad_accum_step: 8
+dataloader:
+  batch_size: 4
+  shuffle: true
+model:
+  type: models/Gemmalpaca-2B@huggingface_llm
+train:
+  local_update_steps: 30
+  batch_or_epoch: batch
+  optimizer:
+    type: RMSprop
+    lr: 1.0e-06
+  is_enable_half: true
+criterion:
+  type: CrossEntropyLoss
+trainer:
+  type: llmrewardtrainer
+eval:
+  freq: 25
+  metrics:
+  - loss
+  - acc
+  count_flops: false
+expname: shp/table_vii/dpo_gemma
+outdir: outputs/shp/dpo/gemma

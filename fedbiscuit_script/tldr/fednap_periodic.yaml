@@ -1,0 +1,131 @@
+# Five-round elite training; downstream model_state contains the archived elite.
+seed: 0
+use_gpu: true
+device: 0
+federate:
+  mode: standalone
+  client_num: 53
+  sample_client_num: 5
+  total_round_num: 200
+  save_to: outputs/tldr/selector/selector.ckpt
+  save_freq: 50
+  share_local_model: true
+  online_aggr: false
+  ignore_weight: true
+  make_global_eval: true
+  method: map_elites
+data:
+  root: data/
+  type: reddit-tldr-worker53-causal-choice@llm
+  worker_data_dir: data/tldr_full
+  worker_num: 53
+  public_eval_size: 256
+  test_eval_size: 256
+  splitter: meta
+  splitter_args:
+  - preserve_category_ids: true
+    on_insufficient: error
+    unknown_category: server_only
+  max_train: -1
+  max_train_per_worker: -1
+  shuffle: true
+llm:
+  tok_len: 1024
+  accelerator:
+    use: true
+  chat:
+    max_len: 1024
+  adapter:
+    use: true
+    args:
+    - adapter_package: peft
+      adapter_method: lora
+      r: 8
+      lora_alpha: 16
+      lora_dropout: 0.05
+      target_modules:
+      - q_proj
+      - v_proj
+  grad_accum_step: 2
+dataloader:
+  batch_size: 8
+  shuffle: true
+model:
+  type: models/Qwen2-0.5B@huggingface_llm
+train:
+  batch_or_epoch: batch
+  local_update_steps: 30
+  optimizer:
+    type: AdamW
+    betas:
+    - 0.9
+    - 0.95
+    lr: 1.0e-05
+  is_enable_half: false
+criterion:
+  type: CrossEntropyLoss
+trainer:
+  type: llmrewardchoicecausaltrainer
+  choices:
+  - A
+  - B
+  causal_selector_type: grl_adversarial
+  grl_lambda:
+    bias_length: 0.2
+    bias_lead: 0.2
+  lambda_adv: 1.0
+  bias_name: tldrmapelitesworker53bdv2qwen2
+  adv_factors:
+  - bias_length
+  - bias_lead
+  adv_pretrain_rounds: 0
+  adv_heads_frozen: true
+  adv_input_mode: concat
+  adv_label_smoothing: 0.1
+  adv_dropout: 0.1
+  adv_pretrained_heads:
+    bias_length: outputs/tldr/head-pretraining/adv_pretrained.pt
+    bias_lead: outputs/tldr/head-pretraining/adv_pretrained.pt
+map_elites:
+  grid_dim:
+  - 2
+  - 2
+  descriptor_mode: data_preference
+  dynamic_thresholds: false
+  length_prior: 0.0426358549
+  lead_prior: 0.0032702415
+  descriptor_shrinkage: 50.0
+  precompute_static_client_bc: true
+  require_all_clients_for_final_manifest: true
+  length_threshold: 0.0342308679
+  lead_threshold: 0.0038937943
+  bc_threshold: 0.5
+  bc_recompute_freq: 10
+  lambda_options:
+    bias_length:
+    - 0.2
+    - 0.5
+    bias_lead:
+    - 0.2
+    - 0.5
+  cold_start_lambda:
+    bias_length: 0.2
+    bias_lead: 0.2
+  elite_archive_interval: 5
+eval:
+  freq: 50
+  metrics:
+  - loss
+  - acc
+  split:
+  - test
+  - val
+  report:
+  - weighted_avg
+  - avg
+  - fairness
+  - raw
+  best_res_update_round_wise_key: val_loss
+  count_flops: false
+expname: tldr/fedcqd/map_elites_worker53_bdv2_qwen2
+outdir: outputs/tldr/selector
