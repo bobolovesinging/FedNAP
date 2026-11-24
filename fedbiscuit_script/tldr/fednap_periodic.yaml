@@ -92,13 +92,15 @@ map_elites:
   - 2
   descriptor_mode: data_preference
   dynamic_thresholds: false
-  length_prior: 0.0426358549
-  lead_prior: 0.0032702415
+  factor_priors:
+    bias_length: 0.0426358549
+    bias_lead: 0.0032702415
   descriptor_shrinkage: 50.0
   precompute_static_client_bc: true
   require_all_clients_for_final_manifest: true
-  length_threshold: 0.0342308679
-  lead_threshold: 0.0038937943
+  factor_thresholds:
+    bias_length: 0.0342308679
+    bias_lead: 0.0038937943
   bc_threshold: 0.5
   bc_recompute_freq: 10
   lambda_options:
