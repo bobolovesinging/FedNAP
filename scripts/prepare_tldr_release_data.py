@@ -53,16 +53,21 @@ def prepare(root):
     return result
 
 
-def prepare_comparisons(raw, output):
-    checksums = Path(__file__).with_name('tldr_sources.sha256').read_text().splitlines()
-    expected = {name: sha for sha, name in (line.split() for line in checksums)}
-    targets = {key: output / f'tldr_cmpr_{key}_bias.jsonl'
-               for key in ('train', 'val', 'test')}
+def load_tldr_label_rules():
     # Import the pure label implementation without initializing the FL runtime.
     code = Path(__file__).parents[1] / 'federatedscope/llm/dataset/tldr_preference.py'
     spec = importlib.util.spec_from_file_location('tldr_labels', code)
     labels = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(labels)
+    return labels
+
+
+def prepare_comparisons(raw, output):
+    checksums = Path(__file__).with_name('tldr_sources.sha256').read_text().splitlines()
+    expected = {name: sha for sha, name in (line.split() for line in checksums)}
+    targets = {key: output / f'tldr_cmpr_{key}_bias.jsonl'
+               for key in ('train', 'val', 'test')}
+    labels = load_tldr_label_rules()
     splits = {'train': 'train', 'valid1': 'val', 'valid2': 'test'}
     records = {key: [] for key in targets}
     source_hashes = {}

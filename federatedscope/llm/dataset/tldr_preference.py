@@ -6,8 +6,42 @@ from collections import Counter
 _WORD_RE = re.compile(r"[A-Za-z0-9']+")
 
 
+_LEAD_STOP_WORDS = set("""
+a an the is are was were be been being have has had do does did will would
+could should may might shall can need to of in for on with at by from as
+into through during before after above below between out off over under again
+further then once here there when where why how all both each few more most
+other some such no not only own same so than too very just because but and
+or if while about up that this these those it its i me my we our you your he
+him his she her they them their what which who whom how am
+""".split())
+
+
 def _tokens(text):
     return _WORD_RE.findall((text or '').lower())
+
+
+def _lead_content_words(text):
+    words = re.findall(r'\b\w+\b', (text or '').lower())
+    return [word for word in words
+            if word not in _LEAD_STOP_WORDS and len(word) > 1]
+
+
+def lead_position_weighted_score(summary, post, max_position=200):
+    """Return the Phase-1 lead-v2 score for a summary and source post."""
+    post_words = _lead_content_words(post)
+    first_positions = {}
+    for index, word in enumerate(post_words[:max_position]):
+        first_positions.setdefault(word, index + 1)
+
+    summary_words = _lead_content_words(summary)
+    if not summary_words:
+        return 0.0
+    weighted_overlap = sum(
+        1.0 / first_positions[word]
+        for word in summary_words
+        if word in first_positions)
+    return weighted_overlap / len(summary_words)
 
 
 def _lead_bigram_precision(summary, post, lead_words=50):
@@ -41,8 +75,8 @@ def compute_preference_descriptors(item):
     return length_margin, lead_margin
 
 
-def compute_causal_bias_labels(item, length_ratio=1.25, lead_words=50,
-                               summary_words=10):
+def compute_causal_bias_labels(item, length_ratio=1.25,
+                               lead_max_position=200):
     """Compute binary bias labels in the chosen/rejected orientation."""
     output_a = item['output_A']
     output_b = item['output_B']
@@ -57,11 +91,10 @@ def compute_causal_bias_labels(item, length_ratio=1.25, lead_words=50,
         bool(rejected_tokens)
         and len(chosen_tokens) / len(rejected_tokens) > length_ratio)
 
-    lead_tokens = set(_tokens(item.get('post', ''))[:lead_words])
-    chosen_lead = sum(
-        token in lead_tokens for token in chosen_tokens[:summary_words])
-    rejected_lead = sum(
-        token in lead_tokens for token in rejected_tokens[:summary_words])
+    chosen_lead = lead_position_weighted_score(
+        chosen, item.get('post', ''), max_position=lead_max_position)
+    rejected_lead = lead_position_weighted_score(
+        rejected, item.get('post', ''), max_position=lead_max_position)
     bias_lead = float(chosen_lead > rejected_lead)
     return {
         'bias_length': bias_length,

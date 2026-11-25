@@ -10,11 +10,12 @@ import shutil
 from tempfile import TemporaryDirectory
 
 from prepare_server_validation import comparison_rank, file_sha256, normalized, read_records
-
+from prepare_tldr_release_data import load_tldr_label_rules
 from tldr_benchmark import TEST_SHA
 
 HEAD_INDEX = Path(__file__).with_name('tldr_head_labels.tsv')
-TRAIN_SHA = '01c4e50337ff74686807c8e6fdf82b543309f144e8a5d61dba72c9f112438bb4'
+TRAIN_SHA = 'db75dd2169ffba8bc850b64965ec7c4124d38795ba15a6c265a5938348dc4e2a'
+LEGACY_TRAIN_SHA = '01c4e50337ff74686807c8e6fdf82b543309f144e8a5d61dba72c9f112438bb4'
 HUMAN = Path('reddit-tldr-comparison')
 CMP = Path('tldr_full')
 
@@ -86,7 +87,7 @@ def head_annotations(train):
     # The row indices refer to the pinned, worker-preserving official train order.
     if file_sha256(HEAD_INDEX) != 'c85b02d766241d50ad0cadebc9482d731da36a7390add9cac3f470869c2e4e1a':
         raise ValueError('Head annotation index checksum mismatch')
-    if file_sha256(train) != TRAIN_SHA:
+    if file_sha256(train) not in (TRAIN_SHA, LEGACY_TRAIN_SHA):
         raise ValueError('Official comparison order differs from the head-label index')
     with HEAD_INDEX.open(encoding='utf-8', newline='') as stream:
         labels = list(csv.DictReader(stream, delimiter='\t'))
@@ -115,6 +116,8 @@ def stage(raw_root, out):
             raise ValueError(f'Prepared input checksum mismatch: {path}')
     if file_sha256(human['test']) != TEST_SHA:
         raise ValueError('Fixed test checksum mismatch')
+    legacy_labels = preparation['files'][sources['train'].name] == LEGACY_TRAIN_SHA
+    label_rules = load_tldr_label_rules() if legacy_labels else None
     groups = PostGroups()
     for path in [*sources.values(), *human.values()]:
         for row in read_records(path):
@@ -131,6 +134,12 @@ def stage(raw_root, out):
             row['source_group'] = groups.key(row)
         paths[name] = path
         write_rows(out / path, rows)
+
+    def save_comparisons(name, path, rows):
+        if label_rules is not None:
+            for row in rows:
+                row.update(label_rules.compute_causal_bias_labels(row))
+        save(name, path, rows)
 
     paths['benchmark'] = HUMAN / human['test'].name
     (out / HUMAN).mkdir()
@@ -165,13 +174,13 @@ def stage(raw_root, out):
         raise ValueError('Need at least 512 eligible validation posts')
     for name, path, panel in [('calibration', Path('calibration.jsonl'), rows[:256]),
                               ('monitoring', CMP / 'tldr_cmpr_val_bias.jsonl', rows[256:512])]:
-        save(name, path, panel)
+        save_comparisons(name, path, panel)
         reserved.update(groups.key(r) for r in panel)
 
     for split in ('test', 'train'):
         rows = unique_comparisons((r for r in read_records(sources[split])
                                    if groups.key(r) not in reserved), groups)
-        save('selector_' + split, CMP / sources[split].name, rows)
+        save_comparisons('selector_' + split, CMP / sources[split].name, rows)
         reserved.update(groups.key(r) for r in rows)
 
     reserved.update(comparisons)

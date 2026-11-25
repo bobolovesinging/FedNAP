@@ -71,6 +71,8 @@ python -c "from modelscope import snapshot_download; snapshot_download('AI-Model
 
 The preparation script downloads and checksums the [official OpenAI data](https://github.com/openai/summarize-from-feedback). Staging groups rows by Reddit ID or post body normalized with Unicode NFKC, case folding, and whitespace collapse. It keeps the official test file byte for byte.
 
+TLDR attribute-head pretraining and selector training use position-weighted lead-overlap labels. Each matching summary content word contributes the inverse of its first position among the first 200 content words of the post. The score is divided by the number of summary content words. A pair is positive when the preferred summary has the higher score. Client routing uses the difference in bigram precision against the first 50 post words.
+
 ~~~bash
 python scripts/prepare_tldr_release_data.py --data-root data/official-tldr
 export TLDR_DATA=outputs/tldr/reproduction-data
