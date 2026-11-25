@@ -35,7 +35,6 @@ def prepare(output_dir, client_num=200, alpha=0.3, seed=0,
         filter_shp_records_by_token_length,
         prepare_shp_split,
         FIRST_PERSON_VERSION,
-        add_shp_causal_descriptors,
     )
 
     output_dir = Path(output_dir).resolve()
@@ -70,8 +69,6 @@ def prepare(output_dir, client_num=200, alpha=0.3, seed=0,
             client_assignments=(assignments
                                 if source_split == 'train' else None),
         )
-        records = [add_shp_causal_descriptors(
-            item, first_person_version=FIRST_PERSON_VERSION) for item in records]
         if source_split == 'train':
             records = filter_shp_records_by_token_length(
                 records, tokenizer, max_pair_tokens)

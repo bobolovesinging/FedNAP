@@ -85,7 +85,7 @@ def write_rows(path, rows):
 
 def head_annotations(train):
     # The row indices refer to the pinned, worker-preserving official train order.
-    if file_sha256(HEAD_INDEX) != 'c85b02d766241d50ad0cadebc9482d731da36a7390add9cac3f470869c2e4e1a':
+    if file_sha256(HEAD_INDEX) != '364deb7d7fac65e5dad613d2fed451ea0b9fae423d0fde58b1c8581dccb1a1b0':
         raise ValueError('Head annotation index checksum mismatch')
     if file_sha256(train) not in (TRAIN_SHA, LEGACY_TRAIN_SHA):
         raise ValueError('Official comparison order differs from the head-label index')

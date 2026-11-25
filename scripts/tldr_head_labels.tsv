@@ -37,7 +37,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 35	no	yes	yes	no	no	no
 36	yes	no	no	no	no	yes
 37	yes	yes	no	no	no	yes
-38	yes	yes	no	no	no	no
+38	yes	no	no	no	no	no
 39	yes	no	yes	no	no	yes
 40	yes	no	no	yes	no	yes
 41	no	yes	no	no	no	no
@@ -523,7 +523,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 521	no	no	no	no	no	yes
 522	no	no	no	no	no	yes
 523	no	no	no	yes	no	no
-524	no	yes	no	no	no	no
+524	no	no	no	no	no	no
 525	no	no	no	yes	no	yes
 526	yes	no	no	no	yes	yes
 527	no	yes	yes	no	no	no
@@ -631,7 +631,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 629	yes	yes	no	no	no	no
 630	yes	yes	no	no	no	no
 631	no	no	no	no	no	no
-632	no	no	no	no	no	yes
+632	no	yes	no	no	no	yes
 633	yes	yes	no	no	yes	yes
 634	no	no	yes	no	no	yes
 635	yes	no	no	yes	yes	yes
@@ -816,7 +816,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 816	yes	yes	no	yes	yes	yes
 817	yes	yes	no	no	yes	yes
 818	yes	no	no	no	yes	yes
-819	yes	no	no	no	no	no
+819	yes	yes	no	no	no	no
 820	no	yes	no	no	no	yes
 821	no	yes	no	no	no	yes
 822	yes	no	no	no	no	no
@@ -966,7 +966,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 966	no	yes	no	no	no	yes
 967	no	yes	no	no	yes	yes
 968	no	yes	no	no	no	yes
-969	no	yes	yes	no	yes	yes
+969	no	no	yes	no	yes	yes
 970	no	no	no	no	no	yes
 971	no	no	no	yes	no	yes
 972	yes	no	no	no	no	yes
@@ -1095,7 +1095,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 1095	yes	no	yes	no	yes	no
 1096	yes	no	no	no	yes	no
 1097	no	no	no	no	no	no
-1098	yes	no	yes	no	no	no
+1098	yes	yes	yes	no	no	no
 1099	yes	yes	no	no	yes	yes
 1100	yes	no	no	no	no	yes
 1101	yes	yes	yes	yes	no	no
@@ -1139,8 +1139,8 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 1139	no	no	yes	no	no	no
 1140	no	no	no	no	no	yes
 1141	no	no	no	yes	yes	no
-1142	no	yes	no	yes	yes	no
-1143	no	yes	no	no	no	no
+1142	no	no	no	yes	yes	no
+1143	no	no	no	no	no	no
 1144	yes	no	no	no	no	yes
 1145	no	yes	no	no	yes	yes
 1146	yes	no	no	no	no	yes
@@ -1346,7 +1346,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 1346	yes	yes	no	no	no	yes
 1347	no	yes	no	no	no	yes
 1348	yes	yes	no	yes	no	no
-1349	yes	yes	no	no	no	no
+1349	yes	no	no	no	no	no
 1350	no	no	no	no	yes	yes
 1351	yes	no	yes	yes	no	no
 1352	yes	no	no	no	no	no
@@ -2290,7 +2290,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 2282	no	yes	no	yes	yes	yes
 2283	no	no	no	no	yes	yes
 2292	yes	no	no	no	yes	no
-2293	yes	no	no	no	yes	no
+2293	yes	yes	no	no	yes	no
 2294	yes	no	no	no	no	yes
 2295	yes	no	no	yes	no	no
 2296	no	no	no	no	no	no
@@ -2347,7 +2347,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 2347	yes	no	no	yes	no	no
 2348	no	yes	no	no	yes	yes
 2349	no	no	no	no	no	yes
-2350	no	yes	no	no	no	no
+2350	no	no	no	no	no	no
 2351	yes	no	no	no	no	yes
 2352	yes	no	yes	no	no	yes
 2353	yes	no	no	no	no	yes
@@ -2435,7 +2435,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 2435	no	no	no	no	no	yes
 2436	yes	yes	yes	no	yes	yes
 2437	yes	no	no	no	no	no
-2438	yes	yes	yes	no	no	yes
+2438	yes	no	yes	no	no	yes
 2439	yes	yes	no	no	no	no
 2440	yes	no	yes	no	no	no
 2441	no	no	no	no	no	yes
@@ -3106,7 +3106,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 3106	no	yes	yes	yes	yes	yes
 3107	no	no	no	no	no	no
 3108	yes	no	no	no	no	no
-3109	yes	no	no	yes	no	yes
+3109	yes	yes	no	yes	no	yes
 3110	yes	yes	no	no	yes	yes
 3111	no	yes	no	yes	no	yes
 3112	yes	no	no	yes	no	no
@@ -3550,7 +3550,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 3550	yes	yes	no	no	yes	no
 3551	no	no	no	no	yes	no
 3552	yes	yes	no	yes	no	no
-3553	no	yes	no	no	yes	yes
+3553	no	no	no	no	yes	yes
 3554	no	no	no	no	yes	yes
 3555	no	no	no	no	no	no
 3556	no	yes	no	no	no	no
@@ -4187,7 +4187,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 4191	no	yes	no	yes	no	no
 4192	yes	yes	yes	no	yes	yes
 4193	no	no	no	no	no	yes
-4194	no	no	no	no	no	yes
+4194	no	yes	no	no	no	yes
 4195	no	no	no	yes	yes	yes
 4196	no	no	no	yes	no	yes
 4197	no	yes	no	yes	yes	no
@@ -4502,7 +4502,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 4506	no	no	yes	no	no	no
 4507	no	yes	no	yes	yes	yes
 4508	no	yes	no	no	yes	yes
-4509	no	no	no	yes	no	yes
+4509	no	yes	no	yes	no	yes
 4510	no	no	no	no	no	yes
 4511	no	no	no	no	no	no
 4512	no	no	no	no	no	yes
@@ -4529,7 +4529,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 4533	no	no	yes	no	no	yes
 4534	no	no	yes	no	no	no
 4535	yes	yes	yes	no	no	no
-4536	no	no	yes	no	no	no
+4536	no	yes	yes	no	no	no
 4537	yes	no	yes	yes	no	yes
 4538	no	no	no	no	no	no
 4539	yes	no	yes	yes	yes	yes
@@ -4862,7 +4862,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 4866	no	no	no	no	no	yes
 4867	yes	yes	no	no	no	no
 4868	yes	yes	no	no	no	no
-4869	no	yes	no	no	yes	yes
+4869	no	no	no	no	yes	yes
 4870	yes	yes	yes	no	yes	yes
 4871	yes	no	yes	no	yes	yes
 4872	no	yes	yes	no	yes	yes
@@ -4909,7 +4909,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 4913	yes	yes	no	no	yes	yes
 4914	no	no	no	no	no	no
 4915	yes	yes	no	no	no	yes
-4916	no	no	no	no	no	no
+4916	no	yes	no	no	no	no
 4917	no	no	no	no	yes	yes
 4918	no	yes	yes	no	no	yes
 4919	yes	no	yes	no	no	yes
@@ -5337,9 +5337,9 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 5341	yes	no	yes	no	no	yes
 5342	no	yes	no	no	no	yes
 5343	yes	no	no	no	no	yes
-5344	yes	yes	no	no	no	yes
+5344	yes	no	no	no	no	yes
 5345	yes	no	no	no	no	yes
-5346	yes	yes	yes	yes	no	yes
+5346	yes	no	yes	yes	no	yes
 5347	no	no	yes	yes	no	no
 5348	no	yes	no	no	no	yes
 5349	no	yes	yes	yes	yes	no
@@ -5556,7 +5556,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 5560	no	yes	no	no	no	no
 5561	no	yes	no	no	no	no
 5562	yes	no	no	no	no	yes
-5563	no	no	no	no	no	yes
+5563	no	yes	no	no	no	yes
 5564	no	no	yes	no	no	yes
 5565	no	no	no	no	yes	yes
 5566	yes	yes	no	no	no	yes
@@ -5645,7 +5645,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 5649	yes	yes	no	no	no	yes
 5650	yes	yes	no	yes	no	yes
 5651	yes	yes	yes	yes	no	yes
-5652	yes	yes	yes	no	no	yes
+5652	yes	no	yes	no	no	yes
 5653	no	no	no	no	no	yes
 5654	no	yes	yes	no	no	no
 5655	no	no	no	no	no	yes
@@ -6072,7 +6072,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 6080	no	yes	no	yes	no	yes
 6081	yes	no	no	no	yes	no
 6082	yes	yes	no	no	yes	no
-6083	no	no	no	no	no	no
+6083	no	yes	no	no	no	no
 6084	no	no	yes	yes	no	no
 6085	no	no	no	no	no	yes
 6086	no	yes	no	no	yes	no
@@ -6177,9 +6177,9 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 6185	no	yes	yes	yes	no	yes
 6186	yes	yes	yes	yes	no	no
 6187	no	yes	no	no	no	no
-6188	no	yes	no	no	no	yes
-6189	no	yes	no	no	no	yes
-6190	no	no	no	no	no	yes
+6188	no	no	no	no	no	yes
+6189	no	no	no	no	no	yes
+6190	no	yes	no	no	no	yes
 6191	no	yes	no	no	no	no
 6192	yes	yes	yes	yes	yes	yes
 6193	no	yes	no	no	yes	no
@@ -6766,7 +6766,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 6774	no	yes	no	no	no	no
 6775	no	yes	no	no	yes	no
 6776	yes	yes	no	no	no	yes
-6777	no	no	no	no	no	no
+6777	no	yes	no	no	no	no
 6778	yes	no	no	no	no	no
 6779	yes	no	no	no	no	no
 6780	no	no	no	no	no	yes
@@ -6913,7 +6913,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 6921	yes	yes	no	no	yes	yes
 6922	yes	yes	yes	no	yes	no
 6923	yes	yes	no	no	yes	no
-6924	yes	yes	no	no	no	yes
+6924	yes	no	no	no	no	yes
 6925	no	no	yes	no	no	no
 6926	yes	no	no	yes	no	yes
 6927	no	yes	no	no	yes	no
@@ -7227,7 +7227,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 7235	yes	yes	no	no	no	no
 7236	no	no	no	yes	no	no
 7237	no	yes	no	no	no	yes
-7238	no	no	no	no	no	yes
+7238	no	yes	no	no	no	yes
 7239	yes	no	no	no	no	no
 7240	no	no	yes	no	no	yes
 7241	no	yes	no	yes	no	yes
@@ -7235,7 +7235,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 7243	no	yes	yes	yes	no	yes
 7244	no	yes	no	no	yes	yes
 7245	no	yes	no	no	yes	no
-7246	no	no	no	no	no	no
+7246	no	yes	no	no	no	no
 7247	yes	no	no	no	no	yes
 7248	no	yes	no	no	yes	no
 7249	yes	yes	yes	no	yes	no
@@ -7342,7 +7342,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 7350	yes	yes	no	no	no	no
 7351	no	no	yes	yes	yes	no
 7352	no	no	no	no	yes	no
-7353	no	no	no	no	yes	no
+7353	no	yes	no	no	yes	no
 7354	no	yes	yes	no	yes	no
 7355	yes	no	yes	yes	no	no
 7356	no	no	yes	yes	no	no
@@ -7739,7 +7739,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 7747	yes	yes	yes	no	yes	no
 7748	no	yes	no	yes	no	no
 7749	no	yes	no	no	yes	yes
-7750	yes	yes	yes	no	no	no
+7750	yes	no	yes	no	no	no
 7751	yes	no	no	yes	no	no
 7752	no	no	no	no	no	yes
 7753	yes	no	no	yes	no	no
@@ -7751,7 +7751,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 7759	no	no	no	yes	yes	no
 7760	no	no	no	yes	no	no
 7761	yes	no	no	no	no	yes
-7762	yes	no	no	no	yes	yes
+7762	yes	yes	no	no	yes	yes
 7763	no	yes	no	yes	no	no
 7764	no	yes	yes	yes	no	yes
 7765	no	yes	no	no	yes	yes
@@ -8265,7 +8265,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 8273	no	no	no	no	yes	yes
 8274	yes	no	no	no	yes	no
 8275	no	yes	no	no	yes	yes
-8276	yes	yes	no	no	yes	no
+8276	yes	no	no	no	yes	no
 8277	yes	yes	yes	no	yes	yes
 8278	no	no	no	no	no	no
 8279	yes	no	no	yes	no	yes
@@ -8308,7 +8308,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 8316	no	no	no	yes	no	yes
 8317	yes	no	no	no	no	yes
 8318	yes	yes	yes	no	yes	yes
-8319	no	no	no	no	yes	yes
+8319	no	yes	no	no	yes	yes
 8320	no	no	no	no	no	yes
 8321	no	yes	yes	no	yes	yes
 8322	no	yes	yes	no	no	yes
@@ -8558,8 +8558,8 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 8566	yes	yes	yes	yes	no	yes
 8567	no	no	no	no	no	yes
 8568	yes	no	no	yes	no	yes
-8569	no	no	no	no	no	no
-8570	yes	yes	no	yes	yes	yes
+8569	no	yes	no	no	no	no
+8570	yes	no	no	yes	yes	yes
 8571	no	yes	no	no	no	no
 8572	no	no	no	no	yes	no
 8573	yes	no	no	no	no	no
@@ -9016,7 +9016,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 9024	yes	no	no	yes	no	yes
 9025	no	no	yes	no	yes	yes
 9026	no	no	yes	yes	yes	yes
-9027	no	no	no	yes	no	yes
+9027	no	yes	no	yes	no	yes
 9028	yes	no	no	no	no	yes
 9029	yes	no	no	no	no	yes
 9030	no	yes	no	no	no	no
@@ -9495,7 +9495,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 9503	no	no	no	no	no	no
 9504	no	no	yes	yes	no	no
 9505	yes	yes	yes	no	no	no
-9506	no	yes	no	yes	no	yes
+9506	no	no	no	yes	no	yes
 9507	yes	no	yes	yes	no	no
 9508	yes	yes	no	no	no	no
 9509	yes	no	no	no	no	yes
@@ -9861,7 +9861,7 @@ train_row	first_person	length	action_advice	punct	neg_framing	lead
 9869	no	yes	no	no	yes	no
 9870	yes	yes	yes	no	no	yes
 9871	yes	no	no	no	no	yes
-9872	no	no	yes	no	no	yes
+9872	no	yes	yes	no	no	yes
 9873	yes	no	no	no	no	no
 9874	no	yes	no	no	no	no
 9875	yes	no	no	no	yes	no

@@ -38,7 +38,7 @@ The evaluator verifies the test checksum and coverage. It writes decisions and w
 
 ## Data and reproduction
 
-The [TLDR manifest](manifests/tldr.json) and [SHP manifest](manifests/shp.json) record the staged counts, source versions, file hashes, and intersections between data roles. Staging preserves the fixed benchmarks, excludes their source groups from other roles, and fails on cross-role overlap. Each task uses separate 256-pair panels for selector monitoring and CPF calibration.
+The [TLDR manifest](manifests/tldr.json) and [SHP manifest](manifests/shp.json) record the staged counts, source versions, file hashes, and intersections between data roles. Staging preserves the fixed benchmarks, excludes their source groups from other roles, and fails on cross-role overlap. Each task uses separate 256-pair panels for selector monitoring and CPF calibration. For both tasks, the length label uses regular-expression word tokens and is positive when the rejected response has at least one word token and the preferred response has more than 1.25 times as many.
 
 | Task | Fixed evaluation | Selector training | DPO candidate prompts |
 | --- | ---: | ---: | --- |
@@ -92,6 +92,8 @@ export TLDR_TEST="$TLDR_DATA/reddit-tldr-comparison/reddit-tldr_test.jsonl"
 To construct the candidate pool, staging removes exact comparison post texts from the official human-summary training rows and takes the last 40% in official order. It retains one eligible prompt per source group. The remaining eligible training groups supply SFT.
 
 ### 2. SHP from official data to one staged directory
+
+SHP attribute heads and selectors use the same first-person label. It is positive when the preferred response has a higher fraction of first-person pronouns and contractions after case and apostrophe normalization.
 
 Stage pinned Stanford SHP and PKU-SafeRLHF-prompt data using the training environment and Gemma tokenizer. The script verifies the fixed AlpacaEval reference file. It groups questions by normalized text and assigns eligible training data to 200 clients by domain using Dirichlet $\alpha=0.3$ (seed 0) after the 512-token comparison filter.
 

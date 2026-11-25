@@ -13,7 +13,8 @@ from federatedscope.llm.dataset.llm_dataset import DefaultToken, \
     LLMDataset, LLMComparisonDataset
 from federatedscope.llm.dataset.tldr_preference import \
     add_causal_bias_labels, cap_records_per_category, \
-    compute_preference_descriptors, format_worker_choice_records
+    compute_causal_bias_labels, compute_preference_descriptors, \
+    format_worker_choice_records
 
 logger = logging.getLogger(__name__)
 
@@ -685,11 +686,9 @@ def load_llm_labeled_tldr(json_path, tokenizer, config=None, max_train=None):
     """Split annotated TLDR posts before producing both response orders."""
     field_map = {
         'first_person': 'bias_first_person',
-        'length': 'bias_length',
         'action_advice': 'bias_action_advice',
         'punct': 'bias_punct',
         'neg_framing': 'bias_negative_framing',
-        'lead': 'bias_lead',
     }
     category_mode = getattr(getattr(config, 'data', None), 'category_mode',
                             'subreddit')
@@ -722,16 +721,19 @@ def load_llm_labeled_tldr(json_path, tokenizer, config=None, max_train=None):
                 rejected = base.pop('rejected', base.get('output_B'))
                 base.setdefault('title', '')
 
+                causal_labels = compute_causal_bias_labels(dict(
+                    output_A=chosen, output_B=rejected, choice=0, post=base['post']))
                 category = base.get('category', base.get('subreddit', 'unknown'))
                 if category_mode == 'bias':
-                    lead = labels.get('lead', 'no')
-                    length = labels.get('length', 'no')
+                    lead = 'yes' if causal_labels['bias_lead'] else 'no'
+                    length = 'yes' if causal_labels['bias_length'] else 'no'
                     category = f"lead_{lead}_len_{length}"
                 base['category'] = category
                 base.update({
                     target: float(str(labels.get(source, 'no')).lower() == 'yes')
                     for source, target in field_map.items()
                 })
+                base.update(causal_labels)
                 records.append(dict(base, output_A=chosen, output_B=rejected,
                                     choice=0))
                 records.append(dict(base, output_A=rejected, output_B=chosen,

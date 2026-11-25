@@ -159,31 +159,21 @@ def _chosen_rejected(item):
     return outputs[choice], outputs[1 - choice]
 
 
-def _first_person_rate(tokens):
-    return (sum(token in _FIRST_PERSON for token in tokens)
-            / max(len(tokens), 1))
+def _first_person_rate(text):
+    tokens = _tokens((text or '').translate(str.maketrans(
+        {'\u2019': "'", '\u2018': "'", '\u02bc': "'"})))
+    words = _FIRST_PERSON | _FIRST_PERSON_CONTRACTIONS
+    return sum(token in words for token in tokens) / max(len(tokens), 1)
 
 
-def add_shp_causal_descriptors(record, length_ratio=1.25,
-                               first_person_version='legacy-v1'):
+def add_shp_causal_descriptors(record, length_ratio=1.25):
     """Attach chosen-oriented binary labels and continuous BC margins."""
     item = copy.deepcopy(record)
     chosen, rejected = _chosen_rejected(item)
     chosen_tokens = _tokens(chosen)
     rejected_tokens = _tokens(rejected)
-    if first_person_version == 'legacy-v1':
-        chosen_first_person = _first_person_rate(chosen_tokens)
-        rejected_first_person = _first_person_rate(rejected_tokens)
-    elif first_person_version == FIRST_PERSON_VERSION:
-        def rate(text):
-            # Normalize apostrophes only for this factor; length stays legacy.
-            tokens = _tokens((text or '').translate(str.maketrans(
-                {'\u2019': "'", '\u2018': "'", '\u02bc': "'"})))
-            words = _FIRST_PERSON | _FIRST_PERSON_CONTRACTIONS
-            return sum(token in words for token in tokens) / max(len(tokens), 1)
-        chosen_first_person, rejected_first_person = rate(chosen), rate(rejected)
-    else:
-        raise ValueError(f'Unknown first-person version: {first_person_version}')
+    chosen_first_person = _first_person_rate(chosen)
+    rejected_first_person = _first_person_rate(rejected)
     item['bias_length'] = float(
         bool(rejected_tokens)
         and len(chosen_tokens) / len(rejected_tokens) > length_ratio)
