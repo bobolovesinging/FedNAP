@@ -109,7 +109,6 @@
   },
   "candidate_allocation": {
     "original_prompt_rows": 42926,
-    "original_rows_matching_fixed_test": 60,
     "retained_original_groups": 42485
   },
   "inputs": {

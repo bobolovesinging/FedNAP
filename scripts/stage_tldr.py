@@ -203,10 +203,8 @@ def stage(raw_root, out):
     available = {groups.key(row) for row in pool}
 
     candidates = {}
-    benchmark_conflicts = 0
     for row in original_candidates:
         key = groups.key(row)
-        benchmark_conflicts += key in benchmark_groups
         if key in available:
             candidates.setdefault(key, row)
     save('sft', HUMAN / 'sft.jsonl',
@@ -233,7 +231,6 @@ def stage(raw_root, out):
                     intersections=overlaps, sha256=files,
                     candidate_allocation=dict(
                         original_prompt_rows=len(original_candidates),
-                        original_rows_matching_fixed_test=benchmark_conflicts,
                         retained_original_groups=len(candidates)),
                     inputs={p.name: file_sha256(p) for p in [*sources.values(), *human.values(), HEAD_INDEX]})
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n', encoding='utf-8')
